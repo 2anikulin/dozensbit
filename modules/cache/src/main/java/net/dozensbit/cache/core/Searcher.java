@@ -10,11 +10,9 @@ import net.dozensbit.cache.query.QueryBuilder;
  */
 public class Searcher
 {
-    private final IndexService indexService;
-
-    public Searcher(final IndexService indexService)
+    public Searcher()
     {
-        this.indexService = indexService;
+
     }
 
     public boolean[] find(final QueryBuilder.Query query)
