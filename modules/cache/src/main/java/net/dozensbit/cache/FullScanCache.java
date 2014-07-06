@@ -1,10 +1,10 @@
 package net.dozensbit.cache;
 
-import com.sun.swing.internal.plaf.metal.resources.metal_sv;
 import net.dozensbit.cache.core.Index;
 import net.dozensbit.cache.core.IndexService;
 import net.dozensbit.cache.core.Searcher;
 import net.dozensbit.cache.query.QueryBuilder;
+import org.apache.commons.collections.map.MultiValueMap;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,12 +18,12 @@ public class FullScanCache<T> implements Cache<T>
     private static final long POSITIVE = -1;
 
     private final Searcher searcher = new Searcher();
-    private final Map<T, Object> rawObjects = new ConcurrentHashMap<T, Object>();
+    private final Map<T, MultiValueMap> rawObjects = new ConcurrentHashMap<T, MultiValueMap>();
     private volatile Container container;
 
 
     @Override
-    public void put(final T object, final Map<String, String> tags)
+    public void put(final T object, final MultiValueMap tags)
     {
         rawObjects.put(object, tags);
     }
@@ -55,7 +55,7 @@ public class FullScanCache<T> implements Cache<T>
     @Override
     public synchronized void rebuild()
     {
-        Map<T, Object> objects = new HashMap<T, Object>(rawObjects);
+        Map<T, MultiValueMap> objects = new HashMap<T, MultiValueMap>(rawObjects);
 
         List<T> indexed = new ArrayList<T>();
 
@@ -63,9 +63,9 @@ public class FullScanCache<T> implements Cache<T>
 
         int position = 0;
 
-        for (Map.Entry<T, Object> entry : objects.entrySet()) {
+        for (Map.Entry<T, MultiValueMap> entry : objects.entrySet()) {
             indexed.add(entry.getKey());
-            newIndexService.addToIndex(position++, (Map<String, String>) entry.getValue());
+            newIndexService.addToIndex(position++, entry.getValue());
         }
 
         newIndexService.build();

@@ -1,9 +1,8 @@
 package net.dozensbit.cache.core;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.collections.map.MultiValueMap;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -82,18 +81,21 @@ public class IndexService
         return maskNegative;
     }
 
-    public void addToIndex(final int position, final Map<String, String> tags)
+    public void addToIndex(final int position, final MultiValueMap tags)
     {
-        for (Map.Entry<String, String> entry : tags.entrySet()) {
-            String key = getKey(entry.getKey(), entry.getValue());
+        for (Object key : tags.keySet()) {
+            Collection values = tags.getCollection(key);
+            for (Object val : values) {
+                String indexName = getKey(key.toString(), val.toString());
 
-            BitSet bitSet = rawIndex.get(key);
-            if (bitSet == null) {
-                bitSet = new BitSet(length);
-                rawIndex.put(key, bitSet);
+                BitSet bitSet = rawIndex.get(indexName);
+                if (bitSet == null) {
+                    bitSet = new BitSet(length);
+                    rawIndex.put(indexName, bitSet);
+                }
+
+                bitSet.set(position);
             }
-
-            bitSet.set(position);
         }
     }
 
