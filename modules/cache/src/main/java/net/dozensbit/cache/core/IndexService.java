@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class IndexService
 {
-    private static final int BIT_COUNT = 64;
+    public static final int BIT_COUNT = 64;
     private static final long[] masks = new long[BIT_COUNT];
 
     private final Map<String, BitSet> rawIndex = new HashMap<String, BitSet>();
@@ -68,7 +68,8 @@ public class IndexService
 
     private int getIndexSize(final int length)
     {
-        return (length / BIT_COUNT) + (length % BIT_COUNT);
+        int mod = (length % BIT_COUNT) == 0 ? 0 : 1;
+        return (length / BIT_COUNT) + mod;
     }
 
     public long[] getIndexPositive()

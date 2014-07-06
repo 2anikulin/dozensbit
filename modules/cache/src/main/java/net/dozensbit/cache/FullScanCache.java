@@ -1,5 +1,6 @@
 package net.dozensbit.cache;
 
+import com.sun.swing.internal.plaf.metal.resources.metal_sv;
 import net.dozensbit.cache.core.Index;
 import net.dozensbit.cache.core.IndexService;
 import net.dozensbit.cache.core.Searcher;
@@ -14,9 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class FullScanCache<T> implements Cache<T>
 {
+    private static final long POSITIVE = -1;
+
     private final Searcher searcher = new Searcher();
     private final Map<T, Object> rawObjects = new ConcurrentHashMap<T, Object>();
     private volatile Container container;
+
 
     @Override
     public void put(final T object, final Map<String, String> tags)
@@ -100,9 +104,10 @@ public class FullScanCache<T> implements Cache<T>
 
         int size = localContainer.getIndexService().getIndexSize();
         long[] positive = localContainer.getIndexService().getIndexPositive();
+        long[] negative = localContainer.getIndexService().getIndexNegative();
 
         if (orList.size() == 0) {
-            orReduced = positive;
+            orReduced = negative;
         } else {
             orReduced = new long[size];
             for (int i = 0; i < size; i++) {
@@ -113,7 +118,7 @@ public class FullScanCache<T> implements Cache<T>
         }
 
         if (orNotList.size() == 0) {
-            orNotReduced = positive;
+            orNotReduced = negative;
         } else {
             orNotReduced = new long[size];
             for (int i = 0; i < size; i++) {
@@ -128,6 +133,7 @@ public class FullScanCache<T> implements Cache<T>
         } else {
             andReduced = new long[size];
             for (int i = 0; i < size; i++) {
+                andReduced[i] = POSITIVE;
                 for (Index index : andList) {
                     andReduced[i] = andReduced[i] & index.getIndex()[i];
                 }
@@ -139,8 +145,9 @@ public class FullScanCache<T> implements Cache<T>
         } else {
             andNotReduced = new long[size];
             for (int i = 0; i < size; i++) {
+                andNotReduced[i] = POSITIVE;
                 for (Index index : andNotList) {
-                    andNotReduced[i] = ~(andNotReduced[i] & index.getIndex()[i]);
+                    andNotReduced[i] = andNotReduced[i] & (~index.getIndex()[i]);
                 }
             }
         }
@@ -148,12 +155,20 @@ public class FullScanCache<T> implements Cache<T>
         List<T> foundObjects = new ArrayList<T>();
         T[] objects = container.getIndexedObjects();
 
-        for (int i = 0; i < size; i++) {
-            long result = orReduced[i] & orNotReduced[i] & andReduced[i] & andNotReduced[i];
-            int offset = getOffset(i);
+        long[] masks = IndexService.getMasks();
+        int maskLen = localContainer.getIndexService().getIndexLength();
+        if (maskLen > masks.length) {
+            maskLen = masks.length;
+        }
 
-            long[] masks = IndexService.getMasks();
-            for (int j = 0; j < masks.length; j++ ) {
+        for (int i = 0; i < size; i++) {
+            long result = (orReduced[i] | orNotReduced[i]) | (andReduced[i] & andNotReduced[i]);
+            if (result == 0){
+                break;
+            }
+
+            int offset = getOffset(i);
+            for (int j = 0; j < maskLen; j++ ) {
                 if ((masks[j] & result) != 0) {
                     foundObjects.add(
                             objects[offset + j]
@@ -184,7 +199,7 @@ public class FullScanCache<T> implements Cache<T>
 
     private int getOffset(final int longPosition)
     {
-        return 0;
+        return longPosition / IndexService.BIT_COUNT;
     }
 
     private class Container
