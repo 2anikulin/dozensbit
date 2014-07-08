@@ -77,11 +77,7 @@ public class QueryBuilder
 
     public static class Query
     {
-        private List<Index> andMap = new ArrayList<Index>();
-        private List<Index> andNotMap = new ArrayList<Index>();
-
-        private List<Index> orMap = new ArrayList<Index>();
-        private List<Index> orNotMap = new ArrayList<Index>();
+        private List<Predicate> predicates = new ArrayList<Predicate>();
 
         private final IndexService indexService;
 
@@ -90,31 +86,16 @@ public class QueryBuilder
             this.indexService = indexService;
         }
 
-        public List<Index> getAndMap()
+        public List<Predicate> getPredicates()
         {
-            return andMap;
-        }
-
-        public List<Index> getAndNotMap()
-        {
-            return andNotMap;
-        }
-
-        public List<Index> getOrMap()
-        {
-            return orMap;
-        }
-
-        public List<Index> getOrNotMap()
-        {
-            return orNotMap;
+            return predicates;
         }
 
         public void putAnd(final String key, final String value)
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
-                andMap.add(index);
+                predicates.add(new And(index.getIndex()));
             }
         }
 
@@ -122,16 +103,15 @@ public class QueryBuilder
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
-                andNotMap.add(index);
+                predicates.add(new AndNot(index.getIndex()));
             }
-
         }
 
         public void putOr(final String key, final String value)
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
-                orMap.add(index);
+                predicates.add(new Or(index.getIndex()));
             }
         }
 
@@ -139,7 +119,7 @@ public class QueryBuilder
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
-                orNotMap.add(index);
+                predicates.add(new OrNot(index.getIndex()));
             }
         }
     }

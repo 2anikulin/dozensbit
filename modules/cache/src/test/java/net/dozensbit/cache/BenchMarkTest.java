@@ -95,7 +95,7 @@ public class BenchMarkTest
         tags.put("lang", "it");
 
         final int OBJECTS_COUNT = 100000;
-        final int TEST_COUNT = 100000;
+        final int TEST_COUNT = 10000;
         final int THREADS_COUNT = 4;
 
         for (int i = 0; i < OBJECTS_COUNT; i++) {
