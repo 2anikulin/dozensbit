@@ -9,14 +9,14 @@ import org.apache.commons.collections.map.MultiValueMap;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static net.dozensbit.cache.core.IndexService.POSITIVE;
+
 /**
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
 public class FullScanCache<T> implements Cache<T>
 {
-    private static final long POSITIVE = ~0;
-
     private final Searcher searcher = new Searcher();
     private final Map<T, MultiValueMap> rawObjects = new ConcurrentHashMap<T, MultiValueMap>();
     private final long[] masks;

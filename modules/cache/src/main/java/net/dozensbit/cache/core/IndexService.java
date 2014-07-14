@@ -12,6 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class IndexService
 {
     public static final int BIT_COUNT = 64;
+    public static final long POSITIVE = ~0;
+
     private static final long[] masks = new long[BIT_COUNT];
 
     private final Map<String, BitSet> rawIndex = new HashMap<String, BitSet>();
