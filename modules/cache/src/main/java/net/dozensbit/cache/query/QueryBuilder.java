@@ -27,12 +27,19 @@ public class QueryBuilder
 
     public QueryBuilder start(final Query query)
     {
-        throw new NotImplementedException();
+        this.query.putAnd(query);
+        return this;
     }
 
     public QueryBuilder startNot(final String key, final String value)
     {
         query.putNotAnd(key, value);
+        return this;
+    }
+
+    public QueryBuilder startNot(final Query query)
+    {
+        this.query.putNotAnd(query);
         return this;
     }
 
@@ -44,12 +51,19 @@ public class QueryBuilder
 
     public QueryBuilder and(final Query query)
     {
-        throw new NotImplementedException();
+        this.query.putAnd(query);
+        return this;
     }
 
     public QueryBuilder andNot(final String key, final String value)
     {
         query.putNotAnd(key, value);
+        return this;
+    }
+
+    public QueryBuilder andNot(final Query query)
+    {
+        this.query.putNotAnd(query);
         return this;
     }
 
@@ -61,12 +75,19 @@ public class QueryBuilder
 
     public QueryBuilder or(final Query query)
     {
-        throw new NotImplementedException();
+        this.query.putOr(query);
+        return this;
     }
 
     public QueryBuilder orNot(final String key, final String value)
     {
         query.putNotOr(key, value);
+        return this;
+    }
+
+    public QueryBuilder orNot(final Query query)
+    {
+        this.query.putNotOr(query);
         return this;
     }
 
@@ -99,12 +120,22 @@ public class QueryBuilder
             }
         }
 
+        public void putAnd(final Query query)
+        {
+             predicates.add(new And(query));
+        }
+
         public void putNotAnd(final String key, final String value)
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new AndNot(index.getIndex()));
             }
+        }
+
+        public void putNotAnd(final Query query)
+        {
+            predicates.add(new AndNot(query));
         }
 
         public void putOr(final String key, final String value)
@@ -115,12 +146,22 @@ public class QueryBuilder
             }
         }
 
+        public void putOr(final Query query)
+        {
+            predicates.add(new Or(query));
+        }
+
         public void putNotOr(final String key, final String value)
         {
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new OrNot(index.getIndex()));
             }
+        }
+
+        public void putNotOr(final Query query)
+        {
+           predicates.add(new OrNot(query));
         }
     }
 
