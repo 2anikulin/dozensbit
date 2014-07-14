@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+
+  <suppress checks="MagicNumber"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="JavadocMethod"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="JavadocVariable"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="JavadocType"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="JavadocPackage"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="IllegalThrows"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="ThrowsCount"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="ImportControl"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="MultipleStringLiterals"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="ClassDataAbstractionCoupling"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="ClassFanOutComplexity"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="MethodCount"
+            files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="RegexpSingleline"
+              files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+  <suppress checks="ThrowsCount"
+              files="Runner.java"
+            />
+  <suppress checks="RegexpMultiline"
+              files="[/\\]src[/\\]test[/\\]java[/\\]"
+            />
+</suppressions>
