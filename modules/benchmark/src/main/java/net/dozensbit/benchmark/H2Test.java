@@ -21,31 +21,24 @@ public class H2Test
 
     public void allInclusiveSingleThread()
     {
-        System.out.println("Test started!");
+        System.out.println("=========================================================");
+        System.out.println("H2 database - all inclusive. Single thread");
+
         try {
-
             Class.forName("org.h2.Driver");
-
-            //create database on memory
             Connection con = DriverManager.getConnection("jdbc:h2:mem:mytest", "sa", "");
 
             stat = con.createStatement();
 
-            //create table
             stat.execute("CREATE TABLE ACTIVITY (ID INTEGER, ATTR_1 VARCHAR(10), ATTR_2 VARCHAR(10), ATTR_3 VARCHAR(15)," +
                     "ATTR_4 VARCHAR(10), ATTR_5 VARCHAR(10), ATTR_6 VARCHAR(10), ATTR_7 VARCHAR(10), ATTR_8 VARCHAR(10)," +
                     "ATTR_9 VARCHAR(10), ATTR_10 VARCHAR(10), PRIMARY KEY (ID))");
 
-            //prepared statement
             PreparedStatement prep = con.prepareStatement("INSERT INTO ACTIVITY " +
                     "(ID, ATTR_1, ATTR_2, ATTR_3, ATTR_4, ATTR_5, ATTR_6, ATTR_7, ATTR_8, ATTR_9, ATTR_10) " +
                     "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
-
-            int ROW_COUNT = 100000;
-            int TESTS_COUNT = 1000;
-
-            for (int i = 0; i < ROW_COUNT; i++){
+            for (int i = 0; i < OBJECTS_COUNT; i++){
                 prep.setLong(1, i);
                 prep.setString(2, "omsk");
                 prep.setString(3, "tomsk");
@@ -76,30 +69,25 @@ public class H2Test
             stat.execute("CREATE INDEX IDX_10 ON ACTIVITY(ATTR_10);");*/
 
             long sumTime = 0;
-            for (int i = 0; i < TESTS_COUNT; i++) {
+            for (int i = 0; i < TEST_COUNT; i++) {
                 sumTime+= execQuery();
             }
 
-            System.out.println("Rows count: " + ROW_COUNT);
-            System.out.println("Tests count: " + TESTS_COUNT);
             System.out.println(
-                    "Average time: " + (sumTime / TESTS_COUNT) / 1000000.0 + " ms"
+                    "Average time: " + (sumTime / TEST_COUNT) / 1000000.0 + " ms"
             );
+            System.out.println("Rows count: " + OBJECTS_COUNT);
+            System.out.println("Tests count: " + TEST_COUNT);
 
-
-            //close connection
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println("Test finished");
     }
 
 
     private long execQuery() throws SQLException
     {
-        //query to database
         long start = System.nanoTime();
 
         ResultSet rs = stat.executeQuery(
@@ -115,7 +103,6 @@ public class H2Test
                         "ATTR_9='au' AND " +
                         "ATTR_10='it' "
         );
-
 
         while (rs.next()) {
 

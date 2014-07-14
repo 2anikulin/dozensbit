@@ -27,6 +27,9 @@ public class DozensBitTest
 
     public void allInclusiveSingleThread()
     {
+        System.out.println("=========================================================");
+        System.out.println("Dozensbit - all inclusive. Single thread");
+
         Cache<Object> cache = new FullScanCache<Object>();
 
         MultiValueMap tags = new MultiValueMap();
@@ -72,7 +75,7 @@ public class DozensBitTest
 
             long time = System.nanoTime() - start;
 
-            System.out.println(String.format("%d ns, %f ms", time, time / 1000000.0));
+            //System.out.println(String.format("%d ns, %f ms", time, time / 1000000.0));
             avg+= time;
 
             if (result.size() != OBJECTS_COUNT) {
@@ -81,11 +84,18 @@ public class DozensBitTest
             }
         }
 
-        System.out.println(String.format("average %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+        System.out.println(String.format("Average time %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+        System.out.println("Objects in cache: " + OBJECTS_COUNT);
+        System.out.println("Tests count: " + TEST_COUNT);
+        System.out.println("=========================================================");
+
     }
 
     public void allInclusiveMultiThread() throws InterruptedException
     {
+        System.out.println("=========================================================");
+        System.out.println("Dozensbit - all inclusive. Multi-thread");
+
         final Cache<Object> cache = new FullScanCache<Object>();
 
         MultiValueMap tags = new MultiValueMap();
@@ -159,7 +169,7 @@ public class DozensBitTest
                             }
 
                             System.out.println(String.format("Finished. Thread id: %d ", Thread.currentThread().getId()));
-                            System.out.println(String.format("average %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+                            System.out.println(String.format("Average time %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
                             latch.countDown();
                         }
                     }
@@ -167,5 +177,11 @@ public class DozensBitTest
         }
 
         latch.await();
+
+        service.shutdown();
+
+        System.out.println("Objects in cache: " + OBJECTS_COUNT);
+        System.out.println("Tests count: " + TEST_COUNT);
+        System.out.println("=========================================================");
     }
 }

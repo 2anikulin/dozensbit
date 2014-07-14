@@ -1,22 +1,11 @@
 package net.dozensbit.benchmark;
 
-import net.dozensbit.cache.Cache;
-import net.dozensbit.cache.FullScanCache;
-import net.dozensbit.cache.query.QueryBuilder;
-import org.apache.commons.collections.map.MultiValueMap;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.*;
-
 /**
  * Set of benchmarks.
  *
  */
 public class BenchMarks
 {
-
     private static final int OBJECTS_COUNT = 100000;
     private static final int TEST_COUNT = 10000;
     private static final int THREADS_COUNT = 4;

@@ -40,8 +40,8 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 2);
-        assertTrue(result.get(0).compareTo("6") == 0);
-        assertTrue(result.get(1).compareTo("5") == 0);
+        assertTrue(result.get(0).equals("6"));
+        assertTrue(result.get(1).equals("5"));
     }
 
     @Test
@@ -68,8 +68,8 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 2);
-        assertTrue(result.get(0).compareTo("3") == 0);
-        assertTrue(result.get(1).compareTo("2") == 0);
+        assertTrue(result.get(0).equals("3"));
+        assertTrue(result.get(1).equals("2"));
     }
 
     @Test
@@ -96,10 +96,10 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 4);
-        assertTrue(result.get(0).compareTo("1") == 0);
-        assertTrue(result.get(1).compareTo("6") == 0);
-        assertTrue(result.get(2).compareTo("5") == 0);
-        assertTrue(result.get(3).compareTo("4") == 0);
+        assertTrue(result.get(0).equals("1"));
+        assertTrue(result.get(1).equals("6"));
+        assertTrue(result.get(2).equals("5"));
+        assertTrue(result.get(3).equals("4"));
     }
 
     @Test
@@ -126,10 +126,10 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 4);
-        assertTrue(result.get(0).compareTo("2") == 0);
-        assertTrue(result.get(1).compareTo("6") == 0);
-        assertTrue(result.get(2).compareTo("5") == 0);
-        assertTrue(result.get(3).compareTo("4") == 0);
+        assertTrue(result.get(0).equals("2"));
+        assertTrue(result.get(1).equals("6"));
+        assertTrue(result.get(2).equals("5"));
+        assertTrue(result.get(3).equals("4"));
     }
 
     @Test
@@ -159,9 +159,9 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 3);
-        assertTrue(result.get(0).compareTo("7") == 0);
-        assertTrue(result.get(1).compareTo("5") == 0);
-        assertTrue(result.get(2).compareTo("4") == 0);
+        assertTrue(result.get(0).equals("7"));
+        assertTrue(result.get(1).equals("5"));
+        assertTrue(result.get(2).equals("4"));
     }
 
     @Test
@@ -189,8 +189,8 @@ public class FullScanCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 2);
-        assertTrue(result.get(0).compareTo("1") == 0);
-        assertTrue(result.get(1).compareTo("5") == 0);
+        assertTrue(result.get(0).equals("1"));
+        assertTrue(result.get(1).equals("5"));
 
         builder = cache.createQuery();
 
@@ -202,10 +202,10 @@ public class FullScanCacheTest
         result = cache.find(query);
 
         assertTrue(result.size() == 4);
-        assertTrue(result.get(0).compareTo("1") == 0);
-        assertTrue(result.get(1).compareTo("6") == 0);
-        assertTrue(result.get(2).compareTo("5") == 0);
-        assertTrue(result.get(3).compareTo("4") == 0);
+        assertTrue(result.get(0).equals("1"));
+        assertTrue(result.get(1).equals("6"));
+        assertTrue(result.get(2).equals("5"));
+        assertTrue(result.get(3).equals("4"));
 
     }
 

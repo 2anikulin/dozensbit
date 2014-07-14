@@ -3,42 +3,68 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <artifactId>dozensbit-root</artifactId>
-    <groupId>net.dozensbit</groupId>
-    <version>1.0</version>
-    <relativePath>../../pom.xml</relativePath>
-  </parent>
+    <parent>
+        <artifactId>dozensbit-root</artifactId>
+        <groupId>net.dozensbit</groupId>
+        <version>1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-  <groupId>net.dozensbit.benchmark</groupId>
-  <artifactId>benchmark</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>benchmark</name>
-  <url>http://maven.apache.org</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
 
-    <dependency>
-        <groupId>net.dozensbit.cache</groupId>
-        <artifactId>cache</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
+    <groupId>net.dozensbit.benchmark</groupId>
+    <artifactId>benchmark</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>benchmark</name>
+    <url>http://maven.apache.org</url>
 
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.179</version>
-    </dependency>
+    <dependencies>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>net.dozensbit.cache</groupId>
+            <artifactId>cache</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+        <dependency>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <version>1.4.179</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.7.1</version>
+                <configuration>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>net.dozensbit.benchmark.BenchMarks</mainClass>
+                        </transformer>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>
