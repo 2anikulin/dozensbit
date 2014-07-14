@@ -1,8 +1,9 @@
-package net.dozensbit.cache;
+package net.dozensbit.benchmark;
 
+import net.dozensbit.cache.Cache;
+import net.dozensbit.cache.FullScanCache;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
-import org.junit.Test;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -11,10 +12,20 @@ import java.util.concurrent.*;
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
-public class BenchMarkTest
+public class DozensBitTest
 {
-    @Test
-    public void allInclusiveTest()
+    private final int OBJECTS_COUNT;
+    private final int TEST_COUNT;
+    private final int THREADS_COUNT;
+
+    public DozensBitTest(final int objectsCount, final int testsCount, final int threadCount)
+    {
+        OBJECTS_COUNT = objectsCount;
+        TEST_COUNT = testsCount;
+        THREADS_COUNT = threadCount;
+    }
+
+    public void allInclusiveSingleThread()
     {
         Cache<Object> cache = new FullScanCache<Object>();
 
@@ -30,9 +41,6 @@ public class BenchMarkTest
         tags.put("lang", "en");
         tags.put("lang", "au");
         tags.put("lang", "it");
-
-        int OBJECTS_COUNT = 100000;
-        int TEST_COUNT = 10000;
 
         for (int i = 0; i < OBJECTS_COUNT; i++) {
             cache.put(Integer.valueOf(i), tags);
@@ -76,8 +84,7 @@ public class BenchMarkTest
         System.out.println(String.format("average %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
     }
 
-    @Test
-    public void multiThreadTest() throws InterruptedException
+    public void allInclusiveMultiThread() throws InterruptedException
     {
         final Cache<Object> cache = new FullScanCache<Object>();
 
@@ -93,10 +100,6 @@ public class BenchMarkTest
         tags.put("lang", "en");
         tags.put("lang", "au");
         tags.put("lang", "it");
-
-        final int OBJECTS_COUNT = 100000;
-        final int TEST_COUNT = 10000;
-        final int THREADS_COUNT = 4;
 
         for (int i = 0; i < OBJECTS_COUNT; i++) {
             cache.put(Integer.valueOf(i), tags);

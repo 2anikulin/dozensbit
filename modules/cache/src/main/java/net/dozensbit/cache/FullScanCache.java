@@ -1,10 +1,7 @@
 package net.dozensbit.cache;
 
-import net.dozensbit.cache.core.Index;
 import net.dozensbit.cache.core.IndexService;
 import net.dozensbit.cache.core.Searcher;
-import net.dozensbit.cache.query.And;
-import net.dozensbit.cache.query.OrNot;
 import net.dozensbit.cache.query.Predicate;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
@@ -18,12 +15,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class FullScanCache<T> implements Cache<T>
 {
-    private static final long POSITIVE = -1;
+    private static final long POSITIVE = ~0;
 
     private final Searcher searcher = new Searcher();
     private final Map<T, MultiValueMap> rawObjects = new ConcurrentHashMap<T, MultiValueMap>();
+    private final long[] masks;
     private volatile Container container;
 
+
+    public FullScanCache()
+    {
+        masks = IndexService.getMasks();
+    }
 
     @Override
     public void put(final T object, final MultiValueMap tags)
@@ -80,11 +83,7 @@ public class FullScanCache<T> implements Cache<T>
         this.container = newContainer;
     }
 
-    //A and B and C
-    //!A and !B and !C -> 0 and 0 and 0 -> true, 1 and 0 and 0 -> false, ~[ A or B or C]
-    //A or B or C
-    //!A or !B or !C -> 0 or 0 or 0 -> true, 1 or 0 or 0 -> true, 1 or 1 or 1 -> false, ~[ A and B and C]
-    //(A and B) or (C and D)
+
     @Override
     public List<T> find(final QueryBuilder.Query query)
     {
@@ -94,24 +93,17 @@ public class FullScanCache<T> implements Cache<T>
 
         final Container localContainer = container;
 
-
-
         List<T> foundObjects = new ArrayList<T>();
-        T[] objects = container.getIndexedObjects();
-
-        long[] masks = IndexService.getMasks();
-        int maskLen = localContainer.getIndexService().getIndexLength();
-        if (maskLen > masks.length) {
-            maskLen = masks.length;
-        }
+        T[] objects = localContainer.getIndexedObjects();
 
         int size = localContainer.getIndexService().getIndexSize();
         List<Predicate> predicates = query.getPredicates();
-        long initValue = ~0; //(predicates.get(0) instanceof And) || (predicates.get(0) instanceof OrNot) ? ~0 : 0;
 
+        int last = size - 1;
+        int masksLen = masks.length;
 
         for (int i = 0; i < size; i++) {
-            long result = initValue;
+            long result = POSITIVE;
 
             for (Predicate p : predicates) {
                 result = p.reduce(i,result);
@@ -121,8 +113,12 @@ public class FullScanCache<T> implements Cache<T>
                 continue;
             }
 
+            if (i == last) {
+                masksLen = localContainer.getIndexService().getIndexLength() % IndexService.BIT_COUNT;
+            }
+
             int offset = getOffset(i);
-            for (int j = 0; j < maskLen; j++ ) {
+            for (int j = 0; j < masksLen; j++ ) {
                 if ((masks[j] & result) != 0) {
                     foundObjects.add(
                             objects[offset + j]
