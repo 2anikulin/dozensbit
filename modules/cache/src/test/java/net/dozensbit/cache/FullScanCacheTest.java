@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertTrue;
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
-public class FullScanCacheTest
+public class FullScanCacheTest //Implemet test with not existed TAG!!!
 {
     @Test
     public void andTest()
