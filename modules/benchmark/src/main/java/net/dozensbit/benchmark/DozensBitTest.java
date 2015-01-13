@@ -69,6 +69,7 @@ public class DozensBitTest
                     .and("lang", "en")
                     .and("lang", "au")
                     .and("lang", "it")
+                    .or("lang", Integer.toString(i))
                     .get();
 
             List<Object> result = cache.find(query);
@@ -79,7 +80,7 @@ public class DozensBitTest
             avg+= time;
 
             if (result.size() != OBJECTS_COUNT) {
-                System.out.println("Error!");
+                System.out.println("Error! size: " + result.size() );
                 break;
             }
         }
@@ -155,6 +156,7 @@ public class DozensBitTest
                                         .and("lang", "en")
                                         .and("lang", "au")
                                         .and("lang", "it")
+                                        .or("lang", Integer.toString(i))
                                         .get();
 
                                 List<Object> result = cache.find(query);
@@ -163,7 +165,7 @@ public class DozensBitTest
                                 avg+= time;
 
                                 if (result.size() != OBJECTS_COUNT) {
-                                    System.out.println("Error!");
+                                    System.out.println("Error! size: " + result.size());
                                     break;
                                 }
                             }

@@ -109,6 +109,7 @@ public class IndexCache<T> implements Cache<T>
 
             if (i == last) {
                 masksLen = localContainer.getIndexService().getIndexLength() % IndexService.BIT_COUNT;
+                if (masksLen == 0) masksLen = IndexService.BIT_COUNT;
             }
 
             int offset = getOffset(i);
@@ -122,12 +123,6 @@ public class IndexCache<T> implements Cache<T>
         }
 
         return foundObjects;
-    }
-
-    @Override
-    public T findOne(final QueryBuilder.Query query)
-    {
-        return null;
     }
 
     @Override

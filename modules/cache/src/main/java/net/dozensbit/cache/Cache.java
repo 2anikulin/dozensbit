@@ -26,7 +26,5 @@ public interface Cache<T>
 
     List<T> find(final QueryBuilder.Query query);
 
-    T findOne(final QueryBuilder.Query query);
-
     QueryBuilder createQuery();
 }
