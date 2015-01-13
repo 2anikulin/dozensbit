@@ -1,7 +1,7 @@
 package net.dozensbit.benchmark;
 
 import net.dozensbit.cache.Cache;
-import net.dozensbit.cache.FullScanCache;
+import net.dozensbit.cache.IndexCache;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
 
@@ -30,7 +30,7 @@ public class DozensBitTest
         System.out.println("=========================================================");
         System.out.println("Dozensbit - all inclusive. Single thread");
 
-        Cache<Object> cache = new FullScanCache<Object>();
+        Cache<Object> cache = new IndexCache<Object>();
 
         MultiValueMap tags = new MultiValueMap();
 
@@ -96,7 +96,7 @@ public class DozensBitTest
         System.out.println("=========================================================");
         System.out.println("Dozensbit - all inclusive. Multi-thread");
 
-        final Cache<Object> cache = new FullScanCache<Object>();
+        final Cache<Object> cache = new IndexCache<Object>();
 
         MultiValueMap tags = new MultiValueMap();
 

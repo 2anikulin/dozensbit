@@ -91,6 +91,18 @@ public class QueryBuilder
         return this;
     }
 
+    public QueryBuilder softEqual(final String key, final String value)
+    {
+        query.putSoftEqual(key, value);
+        return this;
+    }
+
+    public QueryBuilder softEqual(final Query query)
+    {
+        this.query.putSoftEqual(query);
+        return this;
+    }
+
     public Query get()
     {
         return query;
@@ -117,6 +129,8 @@ public class QueryBuilder
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new And(index.getIndex()));
+            } else {
+                predicates.add(new And(indexService.getIndexNegative()));
             }
         }
 
@@ -130,6 +144,8 @@ public class QueryBuilder
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new AndNot(index.getIndex()));
+            } else {
+                predicates.add(new AndNot(indexService.getIndexNegative()));
             }
         }
 
@@ -143,6 +159,8 @@ public class QueryBuilder
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new Or(index.getIndex()));
+            } else {
+                predicates.add(new Or(indexService.getIndexNegative()));
             }
         }
 
@@ -156,12 +174,29 @@ public class QueryBuilder
             Index index = indexService.getIndex(key, value);
             if (index != null) {
                 predicates.add(new OrNot(index.getIndex()));
+            } else {
+                predicates.add(new OrNot(indexService.getIndexNegative()));
             }
         }
 
         public void putNotOr(final Query query)
         {
            predicates.add(new OrNot(query));
+        }
+
+        public void putSoftEqual(final String key, final String value)
+        {
+            Index index = indexService.getIndex(key, value);
+            if (index != null) {
+                predicates.add(new SoftEqual(index.getIndex()));
+            } else {
+                predicates.add(new SoftEqual(indexService.getIndexPositive()));
+            }
+        }
+
+        public void putSoftEqual(final Query query)
+        {
+            predicates.add(new SoftEqual(query));
         }
     }
 

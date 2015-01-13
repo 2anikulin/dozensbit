@@ -1,7 +1,6 @@
 package net.dozensbit.cache;
 
 import net.dozensbit.cache.core.IndexService;
-import net.dozensbit.cache.core.Searcher;
 import net.dozensbit.cache.query.Predicate;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
@@ -15,15 +14,14 @@ import static net.dozensbit.cache.core.IndexService.POSITIVE;
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
-public class FullScanCache<T> implements Cache<T>
+public class IndexCache<T> implements Cache<T>
 {
-    private final Searcher searcher = new Searcher();
     private final Map<T, MultiValueMap> rawObjects = new ConcurrentHashMap<T, MultiValueMap>();
     private final long[] masks;
     private volatile Container container;
 
 
-    public FullScanCache()
+    public IndexCache()
     {
         masks = IndexService.getMasks();
     }
@@ -87,10 +85,6 @@ public class FullScanCache<T> implements Cache<T>
     @Override
     public List<T> find(final QueryBuilder.Query query)
     {
-        if (searcher == null) {
-            return Collections.<T>emptyList();
-        }
-
         final Container localContainer = container;
 
         List<T> foundObjects = new ArrayList<T>();
@@ -133,10 +127,6 @@ public class FullScanCache<T> implements Cache<T>
     @Override
     public T findOne(final QueryBuilder.Query query)
     {
-        if (searcher == null) {
-            return null;
-        }
-
         return null;
     }
 
