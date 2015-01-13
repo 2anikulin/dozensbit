@@ -66,6 +66,15 @@ public class AndTest {
 
         assertTrue(result.size() == 0);
 
+        query = builder
+                .start("city", "omsk")
+                .and("tag_not_exists", "GENDER_NOT_EXISTS")
+                .get();
+
+        result = cache.find(query);
+
+        assertTrue(result.size() == 0);
+
     }
 
     @Test
@@ -123,6 +132,15 @@ public class AndTest {
         assertTrue(result.get(0).equals("2"));
         assertTrue(result.get(1).equals("3"));
         assertTrue(result.get(2).equals("4"));
+
+        query = builder
+                .startNot("city", "omsk")
+                .andNot("tag_not_exists", "NOT_EXISTS")
+                .get();
+
+        result = cache.find(query);
+
+        assertTrue(result.size() == 0);
     }
 
 }

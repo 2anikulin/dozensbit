@@ -8,12 +8,12 @@ public class AndNot extends AbstractPredicate
 {
     public AndNot(final long[] index)
     {
-        init(index, null);
+        super(index, null);
     }
 
     public AndNot(final QueryBuilder.Query query)
     {
-        init(null, query);
+        super(null, query);
     }
 
     @Override

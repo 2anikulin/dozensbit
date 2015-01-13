@@ -8,12 +8,12 @@ public class Or extends AbstractPredicate
 {
     public Or(final long[] index)
     {
-        init(index, null);
+        super(index, null);
     }
 
     public Or(final QueryBuilder.Query query)
     {
-        init(null, query);
+        super(null, query);
     }
 
     @Override

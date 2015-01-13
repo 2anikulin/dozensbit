@@ -86,19 +86,37 @@ public class IndexService
     public void addToIndex(final int position, final MultiValueMap tags)
     {
         for (Object key : tags.keySet()) {
+
+            BitSet rootBitSet = rawIndex.get(key);
+            if (rootBitSet == null) {
+                rootBitSet = createIndex(key.toString());
+            }
+
+            rootBitSet.set(position);
+
+
             Collection values = tags.getCollection(key);
             for (Object val : values) {
                 String indexName = getKey(key.toString(), val.toString());
 
                 BitSet bitSet = rawIndex.get(indexName);
                 if (bitSet == null) {
-                    bitSet = new BitSet(length);
-                    rawIndex.put(indexName, bitSet);
+                    bitSet = createIndex(indexName);
                 }
 
                 bitSet.set(position);
             }
         }
+    }
+
+    private BitSet createIndex(final String indexName) {
+        BitSet bitSet = rawIndex.get(indexName);
+        if (bitSet == null) {
+            bitSet = new BitSet(length);
+            rawIndex.put(indexName, bitSet);
+        }
+
+        return bitSet;
     }
 
     public void build()
@@ -124,6 +142,6 @@ public class IndexService
 
     private String getKey(final String key, final String value)
     {
-        return key + ":" + value;
+        return value == null ? key : key + ":" + value;
     }
 }

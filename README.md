@@ -6,6 +6,7 @@ Small easy and very fast
 
 TODO:
 1. Add disable/enable element search
-2. Add special additional mask for Soft Equal
++ 2. Add special additional mask for Soft Equal
++ 2.1 Implement tests for all not-exists corner cases
 3. CheckStyle
 4. JavaDocs

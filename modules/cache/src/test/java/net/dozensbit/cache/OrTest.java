@@ -69,6 +69,18 @@ public class OrTest {
         assertTrue(result.get(0).equals("1"));
         assertTrue(result.get(1).equals("5"));
         assertTrue(result.get(2).equals("6"));
+
+        query = builder
+                .start("city", "omsk")
+                .or("tag_not_exists", "NOT_EXIST")
+                .get();
+
+        result = cache.find(query);
+
+        assertTrue(result.size() == 3);
+        assertTrue(result.get(0).equals("1"));
+        assertTrue(result.get(1).equals("5"));
+        assertTrue(result.get(2).equals("6"));
     }
 
 
@@ -126,6 +138,15 @@ public class OrTest {
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 6);
+
+        query = builder
+                .start("city", "moscow")
+                .orNot("tag_not_exists", "NOT_EXISTS")
+                .get();
+
+        result = cache.find(query);
+
+        assertTrue(result.size() == 1);
 
     }
 

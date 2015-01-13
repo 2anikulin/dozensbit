@@ -28,6 +28,9 @@ public class Index
         if (f.length == 2) {
             this.key = f[KEY];
             this.value = f[VALUE];
+        } else if (f.length == 1) {
+            this.key = f[KEY];
+            this.value = null;
         } else {
             throw new IllegalArgumentException("Wrong fields format: " + fields);
         }

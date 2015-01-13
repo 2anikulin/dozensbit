@@ -8,12 +8,12 @@ public class And extends AbstractPredicate
 {
     public And(final long[] index)
     {
-        init(index, null);
+        super(index, null);
     }
 
     public And(final QueryBuilder.Query query)
     {
-        init(null, query);
+        super(null, query);
     }
 
     @Override

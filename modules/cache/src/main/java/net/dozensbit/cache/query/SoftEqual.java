@@ -6,14 +6,18 @@ package net.dozensbit.cache.query;
  */
 public class SoftEqual extends AbstractPredicate {
 
-    public SoftEqual(final long[] index)
+    private final long[] rootIndex;
+
+    public SoftEqual(final long[] index, final long[] rootIndex)
     {
-        init(index, null);
+        super(index, null);
+        this.rootIndex = rootIndex;
     }
 
     public SoftEqual(final QueryBuilder.Query query)
     {
-        init(null, query);
+        super(null, query);
+        this.rootIndex = null;
     }
 
     @Override
@@ -21,9 +25,9 @@ public class SoftEqual extends AbstractPredicate {
     {
         long[] index = getIndex();
         if (index != null) {
-            return index[pos] & value;
+            return value & ~(index[pos] ^ rootIndex[pos]);
         } else {
-            return reduceQuery(pos) & value;
+            return value & ~(reduceQuery(pos) ^ rootIndex[pos]);
         }
     }
 }

@@ -145,7 +145,12 @@ public class QueryBuilder
             if (index != null) {
                 predicates.add(new AndNot(index.getIndex()));
             } else {
-                predicates.add(new AndNot(indexService.getIndexNegative()));
+                Index rootIndex = indexService.getIndex(key, null);
+                if (rootIndex != null) {
+                    predicates.add(new AndNot(indexService.getIndexNegative()));
+                } else {
+                    predicates.add(new AndNot(indexService.getIndexPositive()));
+                }
             }
         }
 
@@ -175,7 +180,12 @@ public class QueryBuilder
             if (index != null) {
                 predicates.add(new OrNot(index.getIndex()));
             } else {
-                predicates.add(new OrNot(indexService.getIndexNegative()));
+                Index rootIndex = indexService.getIndex(key, null);
+                if (rootIndex != null) {
+                    predicates.add(new OrNot(indexService.getIndexNegative()));
+                } else {
+                    predicates.add(new OrNot(indexService.getIndexPositive()));
+                }
             }
         }
 
@@ -187,10 +197,16 @@ public class QueryBuilder
         public void putSoftEqual(final String key, final String value)
         {
             Index index = indexService.getIndex(key, value);
-            if (index != null) {
-                predicates.add(new SoftEqual(index.getIndex()));
+            Index rootIndex = indexService.getIndex(key, null);
+
+            if (rootIndex == null) {
+                predicates.add(new SoftEqual(indexService.getIndexNegative(), indexService.getIndexNegative()));
             } else {
-                predicates.add(new SoftEqual(indexService.getIndexPositive()));
+                if (index != null) {
+                    predicates.add(new SoftEqual(index.getIndex(), rootIndex.getIndex()));
+                } else {
+                    predicates.add(new SoftEqual(indexService.getIndexNegative(), rootIndex.getIndex()));
+                }
             }
         }
 

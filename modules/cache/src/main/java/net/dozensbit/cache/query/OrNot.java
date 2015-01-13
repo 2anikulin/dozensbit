@@ -8,12 +8,12 @@ public class OrNot extends AbstractPredicate
 {
     public OrNot(final long[] index)
     {
-        init(index, null);
+        super(index, null);
     }
 
     public OrNot(final QueryBuilder.Query query)
     {
-        init(null, query);
+        super(null, query);
     }
 
     @Override
