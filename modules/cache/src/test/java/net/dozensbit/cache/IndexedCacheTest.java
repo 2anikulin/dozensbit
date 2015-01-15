@@ -4,7 +4,8 @@ import net.dozensbit.cache.query.QueryBuilder;
 import org.junit.Test;
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * @author Anatoliy Nikulin
@@ -40,9 +41,9 @@ public class IndexedCacheTest
         List<String> result = cache.find(query);
 
         assertTrue(result.size() == 3);
-        assertTrue(result.get(0).equals("7"));
+        assertTrue(result.get(0).equals("4"));
         assertTrue(result.get(1).equals("5"));
-        assertTrue(result.get(2).equals("4"));
+        assertTrue(result.get(2).equals("7"));
     }
 
 
@@ -86,9 +87,9 @@ public class IndexedCacheTest
 
         assertTrue(result.size() == 4);
         assertTrue(result.get(0).equals("1"));
-        assertTrue(result.get(1).equals("6"));
+        assertTrue(result.get(1).equals("4"));
         assertTrue(result.get(2).equals("5"));
-        assertTrue(result.get(3).equals("4"));
+        assertTrue(result.get(3).equals("6"));
 
     }
 

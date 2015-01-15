@@ -18,9 +18,9 @@ public class BenchMarks
 
         dozensBitTest.allInclusiveMultiThread();
 
-        //H2Test h2Test = new H2Test(OBJECTS_COUNT, TEST_COUNT);
+        H2Test h2Test = new H2Test(OBJECTS_COUNT, TEST_COUNT);
 
-        //h2Test.allInclusiveSingleThread();
+        h2Test.allInclusiveSingleThread();
     }
 
 }
