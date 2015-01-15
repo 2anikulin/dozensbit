@@ -8,14 +8,15 @@ import java.util.List;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Created by anikulin on 1/13/15.
+ * @author Anatoliy Nikulin
+ *         2anikulin@gmail.com
  */
 public class OrTest {
 
     @Test
     public void orTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -45,7 +46,7 @@ public class OrTest {
     @Test
     public void orIndexNotExistsTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -87,7 +88,7 @@ public class OrTest {
     @Test
     public void orNotTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -117,7 +118,7 @@ public class OrTest {
     @Test
     public void orNotIndexNotExistsTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));

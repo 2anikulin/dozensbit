@@ -14,14 +14,14 @@ import static net.dozensbit.cache.core.IndexService.POSITIVE;
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
-public class IndexCache<T> implements Cache<T>
+public class IndexedCache<T> implements Cache<T>
 {
     private final Map<T, MultiValueMap> rawObjects = new ConcurrentHashMap<T, MultiValueMap>();
     private final long[] masks;
     private volatile Container container;
 
 
-    public IndexCache()
+    public IndexedCache()
     {
         masks = IndexService.getMasks();
     }

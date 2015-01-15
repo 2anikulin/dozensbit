@@ -16,7 +16,7 @@ public class SoftEqualTest {
     @Test
     public void softEqualTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -46,7 +46,7 @@ public class SoftEqualTest {
     @Test
     public void softEqualIndexNotExistTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));

@@ -10,13 +10,13 @@ import static junit.framework.Assert.assertTrue;
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
-public class IndexCacheTest
+public class IndexedCacheTest
 {
 
     @Test
     public void simpleQueryTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -50,7 +50,7 @@ public class IndexCacheTest
     @Test
     public void multiValueQueryTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,city:novosibirsk,city:tomsk,city:novokuznetsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));
@@ -95,7 +95,7 @@ public class IndexCacheTest
     @Test
     public void complexQueryTest()
     {
-        Cache<String> cache = new IndexCache<String>();
+        Cache<String> cache = new IndexedCache<String>();
 
         cache.put("1", TestUtils.toMap("city:omsk,city:novosibirsk,city:tomsk,city:novokuznetsk,gender:male,lang:ru"));
         cache.put("2", TestUtils.toMap("city:moscow,gender:male,lang:ru"));

@@ -94,7 +94,6 @@ public class IndexService
 
             rootBitSet.set(position);
 
-
             Collection values = tags.getCollection(key);
             for (Object val : values) {
                 String indexName = getKey(key.toString(), val.toString());
