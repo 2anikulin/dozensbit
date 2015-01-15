@@ -4,7 +4,7 @@
     <parent>
         <artifactId>dozensbit-root</artifactId>
         <groupId>net.dozensbit</groupId>
-        <version>1.0</version>
+        <version>0.8</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
