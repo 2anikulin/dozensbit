@@ -126,6 +126,51 @@ public class IndexedCache<T> implements Cache<T>
     }
 
     @Override
+    public List<T> find(QueryBuilder.Query query, SearchListener<T> listener) {
+        final Container localContainer = container;
+
+        List<T> foundObjects = new ArrayList<T>();
+        T[] objects = localContainer.getIndexedObjects();
+
+        int size = localContainer.getIndexService().getIndexSize();
+        List<Predicate> predicates = query.getPredicates();
+
+        int last = size - 1;
+        int masksLen = masks.length;
+
+        for (int i = 0; i < size; i++) {
+            long result = POSITIVE;
+
+            for (Predicate p : predicates) {
+                result = p.reduce(i,result);
+            }
+
+            if (result == 0) {
+                continue;
+            }
+
+            if (i == last) {
+                masksLen = localContainer.getIndexService().getIndexLength() % IndexService.BIT_COUNT;
+                if (masksLen == 0) masksLen = IndexService.BIT_COUNT;
+            }
+
+            int offset = getOffset(i);
+            for (int j = 0; j < masksLen; j++ ) {
+                if ((masks[j] & result) != 0) {
+                    T object = objects[offset + j];
+                    if (listener.onObjectFound(object)) {
+                        foundObjects.add(
+                                objects[offset + j]
+                        );
+                    }
+                }
+            }
+        }
+
+        return foundObjects;
+    }
+
+    @Override
     public QueryBuilder createQuery()
     {
         return new QueryBuilder(container.getIndexService());

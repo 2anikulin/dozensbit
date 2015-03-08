@@ -26,5 +26,7 @@ public interface Cache<T>
 
     List<T> find(final QueryBuilder.Query query);
 
+    List<T> find(final QueryBuilder.Query query, SearchListener<T> listener);
+
     QueryBuilder createQuery();
 }

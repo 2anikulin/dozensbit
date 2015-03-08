@@ -18,6 +18,8 @@ public class BenchMarks
 
         dozensBitTest.allInclusiveMultiThread();
 
+        dozensBitTest.allInclusiveMultiThreadWithListener();
+
         H2Test h2Test = new H2Test(OBJECTS_COUNT, TEST_COUNT);
 
         h2Test.allInclusiveSingleThread();
