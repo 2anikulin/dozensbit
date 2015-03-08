@@ -19,8 +19,8 @@ public class IndexService
     private final Map<String, BitSet> rawIndex = new HashMap<String, BitSet>();
     private final int length;
 
-    private long maskNegative[];
-    private long maskPositive[];
+    private final long[] maskNegative;
+    private final long[] maskPositive;
 
     private final Map<String, Index> preparedIndex = new ConcurrentHashMap<String, Index>();
 
@@ -35,11 +35,6 @@ public class IndexService
         }
     }
 
-    public static long[] getMasks()
-    {
-        return masks;
-    }
-
     public IndexService(final int length)
     {
         this.length = length;
@@ -50,6 +45,11 @@ public class IndexService
         maskPositive = new long[size];
 
         Arrays.fill(maskPositive, -1);
+    }
+
+    public static long[] getMasks()
+    {
+        return masks;
     }
 
     public Index getIndex(final String key, final String value)
@@ -108,7 +108,8 @@ public class IndexService
         }
     }
 
-    private BitSet createIndex(final String indexName) {
+    private BitSet createIndex(final String indexName)
+    {
         BitSet bitSet = rawIndex.get(indexName);
         if (bitSet == null) {
             bitSet = new BitSet(length);

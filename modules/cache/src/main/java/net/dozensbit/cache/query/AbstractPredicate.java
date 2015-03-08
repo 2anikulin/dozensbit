@@ -30,7 +30,7 @@ public abstract class AbstractPredicate implements Predicate
         return index;
     }
 
-    protected long reduceQuery(int pos)
+    protected long reduceQuery(final int pos)
     {
         long result = POSITIVE;
 

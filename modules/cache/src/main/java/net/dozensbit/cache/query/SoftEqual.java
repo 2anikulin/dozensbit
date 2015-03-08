@@ -21,7 +21,7 @@ public class SoftEqual extends AbstractPredicate {
     }
 
     @Override
-    public long reduce(int pos, long value)
+    public long reduce(final int pos, final long value)
     {
         long[] index = getIndex();
         if (index != null) {

@@ -10,7 +10,7 @@ public class BenchMarks
     private static final int TEST_COUNT = 10000;
     private static final int THREADS_COUNT = 4;
 
-    public static void main( String[] args ) throws InterruptedException
+    public static void main(final String[] args ) throws InterruptedException
     {
         DozensBitTest dozensBitTest = new DozensBitTest(OBJECTS_COUNT, TEST_COUNT, THREADS_COUNT);
 

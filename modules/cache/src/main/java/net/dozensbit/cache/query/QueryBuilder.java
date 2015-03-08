@@ -2,7 +2,6 @@ package net.dozensbit.cache.query;
 
 import net.dozensbit.cache.core.Index;
 import net.dozensbit.cache.core.IndexService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;

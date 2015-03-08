@@ -109,7 +109,10 @@ public class IndexedCache<T> implements Cache<T>
 
             if (i == last) {
                 masksLen = localContainer.getIndexService().getIndexLength() % IndexService.BIT_COUNT;
-                if (masksLen == 0) masksLen = IndexService.BIT_COUNT;
+                if (masksLen == 0) {
+                    masksLen = IndexService.BIT_COUNT;
+
+                }
             }
 
             int offset = getOffset(i);
@@ -126,7 +129,8 @@ public class IndexedCache<T> implements Cache<T>
     }
 
     @Override
-    public List<T> find(QueryBuilder.Query query, SearchListener<T> listener) {
+    public List<T> find(final QueryBuilder.Query query, final SearchListener<T> listener)
+    {
         final Container localContainer = container;
 
         List<T> foundObjects = new ArrayList<T>();
@@ -151,7 +155,9 @@ public class IndexedCache<T> implements Cache<T>
 
             if (i == last) {
                 masksLen = localContainer.getIndexService().getIndexLength() % IndexService.BIT_COUNT;
-                if (masksLen == 0) masksLen = IndexService.BIT_COUNT;
+                if (masksLen == 0) {
+                    masksLen = IndexService.BIT_COUNT;
+                }
             }
 
             int offset = getOffset(i);

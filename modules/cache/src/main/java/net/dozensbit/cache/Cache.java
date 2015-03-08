@@ -1,7 +1,6 @@
 package net.dozensbit.cache;
 
 import net.dozensbit.cache.query.QueryBuilder;
-import org.apache.commons.collections.MultiMap;
 import org.apache.commons.collections.map.MultiValueMap;
 
 import java.util.List;
