@@ -261,7 +261,7 @@ public class DozensBitTest
 
                                 List<Object> result = cache.find(query, new SearchListener<Object>() {
                                     @Override
-                                    public boolean onObjectFound(Object object) {
+                                    public boolean objectFoundEvent(Object object) {
                                         return concurrentMap.containsKey(object);
                                     }
                                 });

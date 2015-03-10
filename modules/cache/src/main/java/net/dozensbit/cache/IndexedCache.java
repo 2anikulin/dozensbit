@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static net.dozensbit.cache.core.IndexService.POSITIVE;
 
 /**
+ * Indexed Cache implementation.
+ *
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
@@ -21,41 +23,73 @@ public class IndexedCache<T> implements Cache<T>
     private volatile Container container;
 
 
+    /**
+     * Constructor.
+     */
     public IndexedCache()
     {
         masks = IndexService.getMasks();
     }
 
+    /**
+     * Add object and their search-tags to cache.
+     * New object will be available only after rebuild() method called.
+     *
+     * @param object Object
+     * @param tags Search-tags.
+     */
     @Override
     public void put(final T object, final MultiValueMap tags)
     {
         rawObjects.put(object, tags);
     }
 
+    /**
+     * Remove object and their search-tags from cache.
+     * Changes will be available only after rebuild() method called.
+     *
+     * @param object Object to remove.
+     */
     @Override
     public void remove(final T object)
     {
         rawObjects.remove(object);
     }
 
+    /**
+     * Get all cached objects.
+     * @return List of objects.
+     */
     @Override
     public List<T> getAll()
     {
         return container != null ? Arrays.asList(container.getIndexedObjects()) : Collections.<T>emptyList();
     }
 
+    /**
+     * Get size of cached object set.
+     *
+     * @return Size.
+     */
     @Override
     public long size()
     {
         return container != null ? container.getIndexedObjects().length : 0;
     }
 
+    /**
+     * Removes all objects from cache.
+     * Changes will be available only after rebuild() method called.
+     */
     @Override
     public void deleteAll()
     {
         rawObjects.clear();
     }
 
+    /**
+     * Rebuild all indexes so all changes be available for search operations.
+     */
     @Override
     public synchronized void rebuild()
     {
@@ -81,7 +115,12 @@ public class IndexedCache<T> implements Cache<T>
         this.container = newContainer;
     }
 
-
+    /**
+     * Find objects.
+     *
+     * @param query Input query. Use QueryBuilder.
+     * @return List of found objects.
+     */
     @Override
     public List<T> find(final QueryBuilder.Query query)
     {
@@ -128,6 +167,14 @@ public class IndexedCache<T> implements Cache<T>
         return foundObjects;
     }
 
+    /**
+     * Find objects.
+     *
+     * @param query Input query. Use QueryBuilder.
+     * @param listener Listener. Call every time when object found.
+     *                 If Listener return False then found object doesn't add to output result.
+     * @return List of found objects.
+     */
     @Override
     public List<T> find(final QueryBuilder.Query query, final SearchListener<T> listener)
     {
@@ -164,7 +211,7 @@ public class IndexedCache<T> implements Cache<T>
             for (int j = 0; j < masksLen; j++ ) {
                 if ((masks[j] & result) != 0) {
                     T object = objects[offset + j];
-                    if (listener.onObjectFound(object)) {
+                    if (listener.objectFoundEvent(object)) {
                         foundObjects.add(
                                 objects[offset + j]
                         );
@@ -176,6 +223,11 @@ public class IndexedCache<T> implements Cache<T>
         return foundObjects;
     }
 
+    /**
+     * Creates new QueryBuilder instance.
+     *
+     * @return QueryBuilder.
+     */
     @Override
     public QueryBuilder createQuery()
     {

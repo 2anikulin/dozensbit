@@ -2,8 +2,12 @@ package net.dozensbit.cache.core;
 
 import org.apache.commons.collections.map.MultiValueMap;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
 
 /**
  * IndexService implementation.

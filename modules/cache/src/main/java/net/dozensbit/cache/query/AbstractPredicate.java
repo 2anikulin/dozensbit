@@ -1,8 +1,9 @@
 package net.dozensbit.cache.query;
 
+import net.dozensbit.cache.core.IndexService;
+
 import java.util.List;
 
-import static net.dozensbit.cache.core.IndexService.POSITIVE;
 
 /**
  * Predicate abstract implementation.
@@ -54,7 +55,7 @@ public abstract class AbstractPredicate implements Predicate
      */
     protected long reduceQuery(final int pos)
     {
-        long result = POSITIVE;
+        long result = IndexService.POSITIVE;
 
         for (Predicate p : predicates) {
             result = p.reduce(pos, result);

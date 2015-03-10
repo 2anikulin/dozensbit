@@ -11,8 +11,11 @@
     <suppress checks="[a-zA-Z0-9]*"
               files="H2Test\.java"
             />
+    <suppress checks="StrictDuplicateCode"
+              files="IndexedCache\.java"
+            />
 
-  <suppress checks="MagicNumber"
+    <suppress checks="MagicNumber"
             files="[/\\]src[/\\]test[/\\]java[/\\]"
             />
   <suppress checks="JavadocMethod"

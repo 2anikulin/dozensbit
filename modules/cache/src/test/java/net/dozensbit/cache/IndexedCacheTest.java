@@ -165,7 +165,7 @@ public class IndexedCacheTest
 
         List<String> result = cache.find(query, new SearchListener<String>() {
             @Override
-            public boolean onObjectFound(String object) {
+            public boolean objectFoundEvent(String object) {
                 return true;
             }
         });
