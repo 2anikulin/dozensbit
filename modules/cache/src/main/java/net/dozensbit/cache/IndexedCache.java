@@ -5,10 +5,14 @@ import net.dozensbit.cache.query.Predicate;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
-import static net.dozensbit.cache.core.IndexService.POSITIVE;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Indexed Cache implementation.
@@ -136,7 +140,7 @@ public class IndexedCache<T> implements Cache<T>
         int masksLen = masks.length;
 
         for (int i = 0; i < size; i++) {
-            long result = POSITIVE;
+            long result = IndexService.POSITIVE;
 
             for (Predicate p : predicates) {
                 result = p.reduce(i,result);
@@ -190,7 +194,7 @@ public class IndexedCache<T> implements Cache<T>
         int masksLen = masks.length;
 
         for (int i = 0; i < size; i++) {
-            long result = POSITIVE;
+            long result = IndexService.POSITIVE;
 
             for (Predicate p : predicates) {
                 result = p.reduce(i,result);

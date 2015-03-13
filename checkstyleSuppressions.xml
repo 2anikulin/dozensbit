@@ -11,6 +11,9 @@
     <suppress checks="[a-zA-Z0-9]*"
               files="H2Test\.java"
             />
+    <suppress checks="[a-zA-Z0-9]*"
+              files="PostgresTest\.java"
+            />
     <suppress checks="StrictDuplicateCode"
               files="IndexedCache\.java"
             />
