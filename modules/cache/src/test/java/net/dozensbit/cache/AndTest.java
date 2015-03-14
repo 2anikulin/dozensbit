@@ -26,7 +26,7 @@ public class AndTest {
         cache.put("5", TestUtils.toMap("city:omsk,gender:female,lang:ru"));
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -55,7 +55,7 @@ public class AndTest {
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:berlin,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -91,7 +91,7 @@ public class AndTest {
         cache.put("5", TestUtils.toMap("city:omsk,gender:female,lang:ru"));
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -119,7 +119,7 @@ public class AndTest {
         cache.put("5", TestUtils.toMap("city:omsk,gender:female,lang:ru"));
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 

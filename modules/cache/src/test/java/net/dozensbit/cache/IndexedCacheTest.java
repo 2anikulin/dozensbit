@@ -27,7 +27,7 @@ public class IndexedCacheTest
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:berlin,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -61,7 +61,7 @@ public class IndexedCacheTest
         cache.put("6", TestUtils.toMap("city:omsk,city:novosibirsk,city:tomsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:berlin,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -106,7 +106,7 @@ public class IndexedCacheTest
         cache.put("6", TestUtils.toMap("city:omsk,city:novosibirsk,city:tomsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:berlin,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -145,7 +145,7 @@ public class IndexedCacheTest
         cache.put("6", TestUtils.toMap("city:omsk,city:novosibirsk,city:tomsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:berlin,gender:female,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 

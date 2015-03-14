@@ -37,7 +37,7 @@ public class IndexedCache<T> implements Cache<T>
 
     /**
      * Add object and their search-tags to cache.
-     * New object will be available only after rebuild() method called.
+     * New object will be available only after commit() method called.
      *
      * @param object Object
      * @param tags Search-tags.
@@ -50,7 +50,7 @@ public class IndexedCache<T> implements Cache<T>
 
     /**
      * Remove object and their search-tags from cache.
-     * Changes will be available only after rebuild() method called.
+     * Changes will be available only after commit() method called.
      *
      * @param object Object to remove.
      */
@@ -83,7 +83,7 @@ public class IndexedCache<T> implements Cache<T>
 
     /**
      * Removes all objects from cache.
-     * Changes will be available only after rebuild() method called.
+     * Changes will be available only after commit() method called.
      */
     @Override
     public void deleteAll()
@@ -95,7 +95,7 @@ public class IndexedCache<T> implements Cache<T>
      * Rebuild all indexes so all changes be available for search operations.
      */
     @Override
-    public synchronized void rebuild()
+    public synchronized void commit()
     {
         Map<T, MultiValueMap> objects = new HashMap<T, MultiValueMap>(rawObjects);
 

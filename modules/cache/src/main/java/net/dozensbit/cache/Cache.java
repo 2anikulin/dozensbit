@@ -15,7 +15,7 @@ public interface Cache<T>
 {
     /**
      * Add object and their search-tags to cache.
-     * New object will be available only after rebuild() method called.
+     * New object will be available only after commit() method called.
      *
      * @param object Object
      * @param tags Search-tags.
@@ -24,7 +24,7 @@ public interface Cache<T>
 
     /**
      * Remove object and their search-tags from cache.
-     * Changes will be available only after rebuild() method called.
+     * Changes will be available only after commit() method called.
      *
      * @param object Object to remove.
      */
@@ -45,14 +45,14 @@ public interface Cache<T>
 
     /**
      * Removes all objects from cache.
-     * Changes will be available only after rebuild() method called.
+     * Changes will be available only after commit() method called.
      */
     void deleteAll();
 
     /**
      * Rebuild all indexes so all changes be available for search operations.
      */
-    void rebuild();
+    void commit();
 
     /**
      * Find objects.

@@ -57,7 +57,7 @@ public class DozensBitTest
             cache.put(Integer.valueOf(i), tags);
         }
 
-        cache.rebuild();
+        cache.commit();
 
 
         long avg = 0;
@@ -130,7 +130,7 @@ public class DozensBitTest
             cache.put(Integer.valueOf(i), tags);
         }
 
-        cache.rebuild();
+        cache.commit();
 
 
         ExecutorService service = Executors.newFixedThreadPool(THREADS_COUNT);
@@ -234,7 +234,7 @@ public class DozensBitTest
             concurrentMap.put(i, i);
         }
 
-        cache.rebuild();
+        cache.commit();
 
 
         ExecutorService service = Executors.newFixedThreadPool(THREADS_COUNT);

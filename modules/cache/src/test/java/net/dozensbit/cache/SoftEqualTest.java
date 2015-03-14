@@ -27,7 +27,7 @@ public class SoftEqualTest {
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:omsk,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
@@ -57,7 +57,7 @@ public class SoftEqualTest {
         cache.put("6", TestUtils.toMap("city:omsk,gender:female,lang:en"));
         cache.put("7", TestUtils.toMap("city:omsk,lang:en"));
 
-        cache.rebuild();
+        cache.commit();
 
         QueryBuilder builder = cache.createQuery();
 
