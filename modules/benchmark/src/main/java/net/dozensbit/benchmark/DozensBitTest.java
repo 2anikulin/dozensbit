@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 /**
+ * Dozensbit cache benchmark;
+ *
  * @author Anatoliy Nikulin
  *         2anikulin@gmail.com
  */
@@ -27,6 +29,10 @@ public class DozensBitTest
         THREADS_COUNT = threadCount;
     }
 
+    /**
+     * Single thread test.
+     * all objects includes to output result.
+     */
     public void allInclusiveSingleThread()
     {
         System.out.println("=========================================================");
@@ -94,6 +100,12 @@ public class DozensBitTest
 
     }
 
+    /**
+     * Multi thread test.
+     * all objects includes to output result.
+     *
+     * @throws InterruptedException
+     */
     public void allInclusiveMultiThread() throws InterruptedException
     {
         System.out.println("=========================================================");
@@ -189,6 +201,12 @@ public class DozensBitTest
         System.out.println("=========================================================");
     }
 
+    /**
+     * Multi thread test with listener. Emulates dynamic states of objects.
+     * all objects includes to output result.
+     *
+     * @throws InterruptedException
+     */
     public void allInclusiveMultiThreadWithListener() throws InterruptedException
     {
         System.out.println("=========================================================");
