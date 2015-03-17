@@ -14,9 +14,13 @@
 
     <groupId>net.dozensbit.cache</groupId>
     <artifactId>cache</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>cache</name>
     <url>http://maven.apache.org</url>
+
+    <build>
+        <finalName>dozensbit-cache.${version}</finalName>
+    </build>
 
     <dependencies>
 
