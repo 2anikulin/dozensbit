@@ -1,5 +1,7 @@
 package net.dozensbit.benchmark;
 
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+
 import java.sql.*;
 
 /**
@@ -18,7 +20,7 @@ public class PostgresTest
 
     public static void main(final String[] args)
     {
-        PostgresTest instance = new PostgresTest(100000, 100);
+        PostgresTest instance = new PostgresTest(1000000, 10);
         instance.allInclusiveSingleThread();
     }
 
@@ -41,14 +43,25 @@ public class PostgresTest
 
             Thread.sleep(5000);
 
-            long sumTime = 0;
+            DescriptiveStatistics statistics = new DescriptiveStatistics();
+
             for (int i = 0; i < TEST_COUNT; i++) {
-                sumTime+= execQuery();
+                statistics.addValue(execQuery());
             }
 
+
             System.out.println(
-                    "Average time: " + (sumTime / TEST_COUNT) / 1000000.0 + " ms"
+                    "Average time Math: " + statistics.getMean() / 1000000.0 + " ms"
             );
+
+            System.out.println(
+                    "95 percentile: " + statistics.getPercentile(95) / 1000000.0 + " ms"
+            );
+
+            System.out.println(
+                    "99 percentile: " + statistics.getPercentile(99) / 1000000.0 + " ms"
+            );
+
             System.out.println("Rows count: " + OBJECTS_COUNT);
             System.out.println("Tests count: " + TEST_COUNT);
 
@@ -109,7 +122,7 @@ public class PostgresTest
             prep.setString(8, "de");
             prep.setString(9, "en");
             prep.setString(10, "au");
-            if (i < 1) {
+            if (i <  OBJECTS_COUNT) {
                 prep.setString(11, "it");
             } else {
                 prep.setString(11, "usa");
@@ -131,6 +144,16 @@ public class PostgresTest
         stat.execute("CREATE INDEX IDX_8 ON ACTIVITY(ATTR_8);");
         stat.execute("CREATE INDEX IDX_9 ON ACTIVITY(ATTR_9);");
         stat.execute("CREATE INDEX IDX_10 ON ACTIVITY(ATTR_10);");
+
+        rs = stat.executeQuery("SELECT COUNT(ID) FROM ACTIVITY");
+
+        if (rs != null && rs.next()) {
+            System.out.println("Rows count by DB:" + rs.getInt(1));
+        }
+
+        if (rs != null) {
+            rs.close();
+        }
 
     }
 

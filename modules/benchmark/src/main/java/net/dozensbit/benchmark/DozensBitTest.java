@@ -5,6 +5,7 @@ import net.dozensbit.cache.IndexedCache;
 import net.dozensbit.cache.SearchListener;
 import net.dozensbit.cache.query.QueryBuilder;
 import org.apache.commons.collections.map.MultiValueMap;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 import java.util.List;
 import java.util.Map;
@@ -40,27 +41,34 @@ public class DozensBitTest
 
         Cache<Object> cache = new IndexedCache<Object>();
 
-        MultiValueMap tags = new MultiValueMap();
-
-        tags.put("city", "omsk");
-        tags.put("city", "tomsk");
-        tags.put("city", "novosibirsk");
-        tags.put("city", "moscow");
-        tags.put("gender", "male");
-        tags.put("lang", "ru");
-        tags.put("lang", "de");
-        tags.put("lang", "en");
-        tags.put("lang", "au");
-        tags.put("lang", "it");
 
         for (int i = 0; i < OBJECTS_COUNT; i++) {
+            MultiValueMap tags = new MultiValueMap();
+
+            tags.put("city", "omsk");
+            tags.put("city", "tomsk");
+            tags.put("city", "novosibirsk");
+            tags.put("city", "moscow");
+            tags.put("gender", "male");
+            tags.put("lang", "ru");
+            tags.put("lang", "de");
+            tags.put("lang", "en");
+            tags.put("lang", "au");
+
+            if (i <  OBJECTS_COUNT) {
+                tags.put("lang", "it");
+            } else {
+                tags.put("lang", "usa");
+            }
+
             cache.put(Integer.valueOf(i), tags);
         }
 
         cache.commit();
 
 
-        long avg = 0;
+        DescriptiveStatistics statistics = new DescriptiveStatistics();
+
         for (int i = 0; i < TEST_COUNT; i++) {
             long start = System.nanoTime();
 
@@ -82,18 +90,22 @@ public class DozensBitTest
 
             List<Object> result = cache.find(query);
 
-            long time = System.nanoTime() - start;
+            statistics.addValue(System.nanoTime() - start);
 
-            //System.out.println(String.format("%d ns, %f ms", time, time / 1000000.0));
-            avg+= time;
-
-            if (result.size() != OBJECTS_COUNT) {
-                System.out.println("Error! size: " + result.size() );
-                break;
-            }
         }
 
-        System.out.println(String.format("Average time %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+        System.out.println(
+                "Average time Math: " + statistics.getMean() / 1000000.0 + " ms"
+        );
+
+        System.out.println(
+                "95 percentile: " + statistics.getPercentile(95) / 1000000.0 + " ms"
+        );
+
+        System.out.println(
+                "99 percentile: " + statistics.getPercentile(99) / 1000000.0 + " ms"
+        );
+
         System.out.println("Objects in cache: " + OBJECTS_COUNT);
         System.out.println("Tests count: " + TEST_COUNT);
         System.out.println("=========================================================");
@@ -153,7 +165,7 @@ public class DozensBitTest
                                 e.printStackTrace();
                             }
 
-                            long avg = 0;
+                            DescriptiveStatistics statistics = new DescriptiveStatistics();
                             for (int i = 0; i < TEST_COUNT; i++) {
                                 long start = System.nanoTime();
 
@@ -175,17 +187,21 @@ public class DozensBitTest
 
                                 List<Object> result = cache.find(query);
 
-                                long time = System.nanoTime() - start;
-                                avg+= time;
-
-                                if (result.size() != OBJECTS_COUNT) {
-                                    System.out.println("Error! size: " + result.size());
-                                    break;
-                                }
+                                statistics.addValue(System.nanoTime() - start);
                             }
 
                             System.out.println(String.format("Finished. Thread id: %d ", Thread.currentThread().getId()));
-                            System.out.println(String.format("Average time %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+                            System.out.println(
+                                    "Average time Math: " + statistics.getMean() / 1000000.0 + " ms"
+                            );
+
+                            System.out.println(
+                                    "95 percentile: " + statistics.getPercentile(95) / 1000000.0 + " ms"
+                            );
+
+                            System.out.println(
+                                    "99 percentile: " + statistics.getPercentile(99) / 1000000.0 + " ms"
+                            );
                             latch.countDown();
                         }
                     }
@@ -257,7 +273,7 @@ public class DozensBitTest
                                 e.printStackTrace();
                             }
 
-                            long avg = 0;
+                            DescriptiveStatistics statistics = new DescriptiveStatistics();
                             for (int i = 0; i < TEST_COUNT; i++) {
                                 long start = System.nanoTime();
 
@@ -284,17 +300,21 @@ public class DozensBitTest
                                     }
                                 });
 
-                                long time = System.nanoTime() - start;
-                                avg+= time;
-
-                                if (result.size() != OBJECTS_COUNT) {
-                                    System.out.println("Error! size: " + result.size());
-                                    break;
-                                }
+                                statistics.addValue(System.nanoTime() - start);
                             }
 
                             System.out.println(String.format("Finished. Thread id: %d ", Thread.currentThread().getId()));
-                            System.out.println(String.format("Average time %d ns, %f ms", avg / TEST_COUNT, (avg / TEST_COUNT) / 1000000.0));
+                            System.out.println(
+                                    "Average time Math: " + statistics.getMean() / 1000000.0 + " ms"
+                            );
+
+                            System.out.println(
+                                    "95 percentile: " + statistics.getPercentile(95) / 1000000.0 + " ms"
+                            );
+
+                            System.out.println(
+                                    "99 percentile: " + statistics.getPercentile(99) / 1000000.0 + " ms"
+                            );
                             latch.countDown();
                         }
                     }
